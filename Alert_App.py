@@ -1,7 +1,8 @@
 from flask import Flask
-app = Flask(Twilio_Alerts)
+app = Flask(__name__)
 
 def get():
+    
 
 
 def set():
