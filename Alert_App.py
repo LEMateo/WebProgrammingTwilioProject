@@ -11,8 +11,8 @@ def get():
 
     #return results
 
-@app.route('/set')
-def set():
+#@app.route('/set')
+#def set():
 
-@app.route('/drop')
-def drop():
+#@app.route('/drop')
+#def drop():
