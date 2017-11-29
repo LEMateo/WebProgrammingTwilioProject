@@ -23,12 +23,11 @@ class TestProductInventory(TestCase):
 
     def test_new_empty_inventory(self):
         db = make_empty_database({})
-        self.assertEqual(0, len(db.get_product_list()))
-        self.assertFalse(pi.is_product('nothing'))
+        self.assertEqual(0, len(db.get_reminders()))
 
-    def test_new_nonempty_inventory(self):
-        pi = make_database()
-        self.assertInventory({'foo': 15, 'bar': 20}, pi)
+    #def test_new_nonempty_inventory(self):
+    #    db = make_database()
+    #    self.assert({'foo': 15, 'bar': 20}, db)
 
 
 

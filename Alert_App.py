@@ -9,7 +9,7 @@ def get():
     #add first 10 reminders in database to results
 
 
-    #return results
+    return results
 
 #@app.route('/set')
 #def set():
