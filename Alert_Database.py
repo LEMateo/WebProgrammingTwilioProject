@@ -12,6 +12,8 @@ class Alert_Database:
         return self.r.keys()
 
     def new_reminder(self,time,text):
-        #create unique identifying number
-        self.r.append()
+        #create unique identifying number for num
+        num=0
+        #would the value be the dict with the info? bc the num is the key right?
+        self.r.append(num,)
 

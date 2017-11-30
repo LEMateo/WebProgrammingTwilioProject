@@ -12,7 +12,7 @@ def get():
     return results
 
 #@app.route('/set')
-def set(time, text):
+#def set(time, text):
     #error check/formatting check
 
     #add reminder
@@ -22,3 +22,4 @@ def set(time, text):
 
 #@app.route('/drop')
 #def drop():
+    #are we dropping all reminders or just one??
