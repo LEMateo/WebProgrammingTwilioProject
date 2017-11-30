@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  title: Twilio Reminder App
+  description: This is an app designed to send, get, and drop reminders from a database, as well as send notifications for any expired reminders via the Twilio app.
+  version: 0.1.0
+paths:
+  /reminders:
+    get:
+      summary: Retrieves a list of reminders in the database
+      description: Allows the user to request a list of the reminders in the database using the command line interface.
+
+        The return type is a JSON array of reminder objects, or an empty list if zero reminders exist.
+      responses:
+        '200':
+          description: A JSON array of reminder objects, represented as dicts of time (datetime), message (string), and unique ID (int).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  time:
+                    type: string
+                    description: Time of reminder.
+                  message:
+                    type: string
+                    description: Message given at appropriate time.
+                  id:
+                    type: integer
+                    description: Unique identifying id for reminder.
+
+        '404':
+          description: Used in case the database does not exist.
+    post:
+      summary: Adds a new reminder to the database
+      description: Allows the user to add a new reminder to the database, represented as a dict of time (datetime), and message (string).  Also adds a unique ID to the reminder during its entry.
+      responses:
+        '200':
+          description: A confirmation message upon a successful insertion into the database.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                    description: Affirmative response to insertion.
+
+        '404':
+          description: Used if there are too many or missing query parameters, if the query parameters are invalid, and also in case the database doesn't exist.
