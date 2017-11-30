@@ -22,7 +22,7 @@ def make_empty_database():
 class TestProductInventory(TestCase):
 
     def test_new_empty_inventory(self):
-        db = make_empty_database({})
+        db = make_empty_database()
         self.assertEqual(0, len(db.get_reminders()))
 
     #def test_new_nonempty_inventory(self):
