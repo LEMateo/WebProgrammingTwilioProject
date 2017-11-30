@@ -12,7 +12,13 @@ def get():
     return results
 
 #@app.route('/set')
-#def set():
+def set(time, text):
+    #error check/formatting check
+
+    #add reminder
+
+    #nothing to return
+
 
 #@app.route('/drop')
 #def drop():
