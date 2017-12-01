@@ -21,5 +21,6 @@ def get():
 
 
 #@app.route('/drop')
-#def drop():
-    #are we dropping all reminders or just one??
+#def drop(numID):
+    #identify the reminder by the number id it was given aka numID
+
