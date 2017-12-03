@@ -1,26 +1,39 @@
 import redis
 import threading
+import Reminder
 
 
 class Alert_Database:
 
     def __init__(self, reminders):
+        # Create base database for reminders
         self.r = redis.Redis()
         self.lock = threading.RLock()
+
+        # Create initial id_num to act as key for reminders in database
+        self.id_num = 0
 
     def get_reminders(self):
         return self.r.keys()
 
-    def new_reminder(self,time,text):
-        #create unique identifying number for num
-        num=0
-        #would the value be the dict with the info? bc the num is the key right?
-        #I didnt finish this line
-        reminder r=new
-        #reminder is the object. Take the time and text and put it into one object, then pull the values when needed
-        self.r.append(num,reminder)
-    def delete_reminder(self,numID):
-        #use for drop
-        #numID is the number idenitifier
-        #remember to add a name into delete cause I didn't do it yet bc I'm tired rn and don't wanna
-        self.r.delete()
+    def new_reminder(self, time, text):
+        # reminder_instance is the object.
+        # Take the time and text and put it into one object, then pull the values when needed
+        reminder_instance = Reminder.Reminder(time, text, self.id_num)
+
+        # Adds the new reminder to the database.
+        self.r.set(self.id_num, reminder_instance)
+
+        # It might be a good idea to sort the reminders by time
+
+        # Increment id_num to prepare for next reminder
+        self.id_num += 1
+
+    def delete_reminder(self, numID):
+        # use for drop
+        # numID is the number idenitifier
+
+        # Request for confirmation of deletion (y/n)
+
+        # remember to add a name into delete cause I didn't do it yet bc I'm tired rn and don't wanna
+        self.r.delete(numID)

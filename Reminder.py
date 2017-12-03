@@ -10,8 +10,9 @@ class Reminder(object):
         # Test time for proper datetime format
         try:
             self.time = datetime.time.strftime(time, '%H:%M:%S')
-        except:
-
+        except ValueError:
+            # for testing purposes
+            print("Sorry, the time you gave is not a valid time.")
 
         self.message = message
         self.id_number = id_number
