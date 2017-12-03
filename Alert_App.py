@@ -1,8 +1,10 @@
-from flask import Flask
-app = Flask(__name__)
-from Alert_Database import Alert_Database
-ad = Alert_Database({})
 import datetime
+from Alert_Database import Alert_Database
+from flask import Flask
+
+
+app = Flask(__name__)
+ad = Alert_Database({})
 
 
 @app.route('/get')
@@ -14,6 +16,7 @@ def get():
 
     # Return the first 10 reminders
     return results
+
 
 @app.route('/set')
 def set(time, text):
@@ -28,12 +31,15 @@ def set(time, text):
     # add reminder - have yet to test
     ad.new_reminder(time, text)
 
-    #nothing to return
+    # nothing to return
 
 
 @app.route('/drop')
 def drop(numID):
-    #identify the reminder by the number id it was given aka numID
-    #did not test yet!!
-    ad.delete_reminder(numID)
+    # identify the reminder by the number id it was given aka numID
+    # did not test yet!!
+    if isinstance(numID, int):
+        ad.delete_reminder(numID)
+    else:
+        print("I'm sorry.", numID,  " is not a valid reminder code.")
 

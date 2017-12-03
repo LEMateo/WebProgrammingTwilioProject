@@ -34,9 +34,12 @@ class Alert_Database:
 
     def delete_reminder(self, numID):
         # use for drop
-        # numID is the number identifier
+        # numID is the unique identifying number
 
-        # Request for confirmation of deletion (y/n)
+        selected_entry = self.r.get(numID)
+        # I think it would be good (but not necessary) to implement some code which does the following:
+        # request for confirmation of deletion (y/n)
+
 
         # remember to add a name into delete cause I didn't do it yet bc I'm tired rn and don't wanna
         self.r.delete(numID)

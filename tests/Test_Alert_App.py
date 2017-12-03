@@ -65,7 +65,27 @@ class TestReminderDatabase(TestCase):
         self.assertEqual(10, len(db.get_reminders()))
         #self.assertEqual({0: {"00:00:00", "R1"}, 1: {"01:00:00", "R2"}, 2: {"02:00:00", "R3"}, 3: {"03:00:00", "R4"}, 4: {"04:00:00", "R5"}, 5: {"05:00:00", "R6"}, 6: {"06:00:00", "R7"}, 7: {"07:00:00", "R8"}, 8: {"08:00:00", "R9"}, 9: {"09:00:00", "R10"}, 10: {"10:00:00", "R11"}}, db)
 
+    # test ideas to add later
 
+    # def test_add_duplicate_entry(self):
+
+    # def test_invalid_insertion(self):
+
+    # def test_invalid_numID_removal(self):
+
+    # def test_remove_from_empty_database(self):
+
+    # def test_remove_only_entry(self):
+
+    # def test_remove_one_of_ten(self):
+
+    # def rest_remove_one_of_eleven(self):
+
+    # def test_remove_nine_of_ten(self):
+
+    # def test_remove_all(self):
+
+    # def test_duplicate_removal(self):
 
 
 
