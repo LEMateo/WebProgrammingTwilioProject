@@ -25,9 +25,10 @@ class TestProductInventory(TestCase):
         db = make_empty_database()
         self.assertEqual(0, len(db.get_reminders()))
 
-    #def test_new_nonempty_inventory(self):
-    #    db = make_database()
-    #    self.assert({'foo': 15, 'bar': 20}, db)
+    def test_new_nonempty_inventory(self):
+        db = make_database()
+        db.new_reminder(15,'foo')
+        self.assertEqual({'foo': 15}, db)
 
 
 

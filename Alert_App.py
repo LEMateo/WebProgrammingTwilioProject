@@ -14,17 +14,18 @@ def get():
 
     return results
 
-#@app.route('/set')
-#def set(time, text):
+@app.route('/set')
+def set(time, text):
     #error check/formatting check
 
-    #add reminder
-
+    #add reminder - have yet to test
+    ad.new_reminder(time,text)
     #nothing to return
 
 
 @app.route('/drop')
 def drop(numID):
     #identify the reminder by the number id it was given aka numID
+    #did not test yet!!
     ad.delete_reminder(numID)
 
