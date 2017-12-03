@@ -15,6 +15,8 @@ class Alert_Database:
         #create unique identifying number for num
         num=0
         #would the value be the dict with the info? bc the num is the key right?
+        #I didnt finish this line
+        reminder r=new
         #reminder is the object. Take the time and text and put it into one object, then pull the values when needed
         self.r.append(num,reminder)
     def delete_reminder(self,numID):
