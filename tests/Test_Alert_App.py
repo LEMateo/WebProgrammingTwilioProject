@@ -6,12 +6,15 @@ import fakeredis
 from Alert_Database import Alert_Database
 
 # format for data entry is  "HH:MM:SS", "........."
-def make_database():
-    r = fakeredis.FakeStrictRedis()
-    r.flushall()
-    r.set('00:00:00', "Hello")
-    r.set('01:00:00', "Testing")
-    return Alert_Database(r)
+
+# I don't think this creation statement works for our database
+# def make_database():
+#    r = fakeredis.FakeStrictRedis()
+#    r.flushall()
+#    r.set('00:00:00', "Hello")
+#    r.set('01:00:00', "Testing")
+#    return Alert_Database(r)
+
 
 def make_empty_database():
     r = fakeredis.FakeStrictRedis()
@@ -19,16 +22,49 @@ def make_empty_database():
     return Alert_Database({})
 
 
-class TestProductInventory(TestCase):
+class TestReminderDatabase(TestCase):
 
-    def test_new_empty_inventory(self):
+    def test_new_empty_database(self):
         db = make_empty_database()
         self.assertEqual(0, len(db.get_reminders()))
 
-    def test_new_nonempty_inventory(self):
-        db = make_database()
-        db.new_reminder(15,'foo')
-        self.assertEqual({'foo': 15}, db)
+    def test_add_one_reminder(self):
+        db = make_empty_database()
+        db.new_reminder("00:00:00", "Hello")
+        self.assertEqual(1, len(db.get_reminders()))
+        self.assertEqual({0: {"00:00:00", "Hello"}}, db)
+
+    def test_add_ten_reminders(self):
+        db = make_empty_database()
+        db.new_reminder("00:00:00", "R1")
+        db.new_reminder("01:00:00", "R2")
+        db.new_reminder("02:00:00", "R3")
+        db.new_reminder("03:00:00", "R4")
+        db.new_reminder("04:00:00", "R5")
+        db.new_reminder("05:00:00", "R6")
+        db.new_reminder("06:00:00", "R7")
+        db.new_reminder("07:00:00", "R8")
+        db.new_reminder("08:00:00", "R9")
+        db.new_reminder("09:00:00", "R10")
+        self.assertEqual(10, len(db.get_reminders()))
+        # self.assertEqual({0: {"00:00:00", "R1"}, 1: {"01:00:00", "R2"}, 2: {"02:00:00", "R3"}, 3: {"03:00:00", "R4"}, 4: {"04:00:00", "R5"}, 5: {"05:00:00", "R6"}, 6: {"06:00:00", "R7"}, 7: {"07:00:00", "R8"}, 8: {"08:00:00", "R9"}, 9: {"09:00:00", "R10"}}, db)
+
+    def test_add_eleven_reminders(self):
+        db = make_empty_database()
+        db.new_reminder("00:00:00", "R1")
+        db.new_reminder("01:00:00", "R2")
+        db.new_reminder("02:00:00", "R3")
+        db.new_reminder("03:00:00", "R4")
+        db.new_reminder("04:00:00", "R5")
+        db.new_reminder("05:00:00", "R6")
+        db.new_reminder("06:00:00", "R7")
+        db.new_reminder("07:00:00", "R8")
+        db.new_reminder("08:00:00", "R9")
+        db.new_reminder("09:00:00", "R10")
+        db.new_reminder("10:00:00", "R11")
+        self.assertEqual(10, len(db.get_reminders()))
+        #self.assertEqual({0: {"00:00:00", "R1"}, 1: {"01:00:00", "R2"}, 2: {"02:00:00", "R3"}, 3: {"03:00:00", "R4"}, 4: {"04:00:00", "R5"}, 5: {"05:00:00", "R6"}, 6: {"06:00:00", "R7"}, 7: {"07:00:00", "R8"}, 8: {"08:00:00", "R9"}, 9: {"09:00:00", "R10"}, 10: {"10:00:00", "R11"}}, db)
+
 
 
 

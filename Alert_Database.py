@@ -14,7 +14,10 @@ class Alert_Database:
         self.id_num = 0
 
     def get_reminders(self):
-        return self.r.keys()
+        reminders = self.r.keys()
+        results = reminders[0: 10]
+
+        return results
 
     def new_reminder(self, time, text):
         # reminder_instance is the object.
@@ -31,7 +34,7 @@ class Alert_Database:
 
     def delete_reminder(self, numID):
         # use for drop
-        # numID is the number idenitifier
+        # numID is the number identifier
 
         # Request for confirmation of deletion (y/n)
 

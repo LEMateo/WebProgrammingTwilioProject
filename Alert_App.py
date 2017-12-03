@@ -8,10 +8,9 @@ import datetime
 @app.route('/get')
 def get():
     # dont know if it works!!
-    reminders = ad.get_reminders()
+    results = ad.get_reminders()
 
     # add first 10 reminders in database to results
-    results = reminders[0, 10]
 
     # Return the first 10 reminders
     return results
@@ -20,7 +19,7 @@ def get():
 def set(time, text):
     # error check/formatting check
     try:
-        test_time = datetime.datetime.strftime(time, '%H:%M:%S')
+        test_time = datetime.datetime.strptime(time, "%H:%M:%S")
     except ValueError:
         # for testing purposes
         print("Sorry, the time you gave is not a valid time.")
