@@ -5,10 +5,10 @@ ad=Alert_Database({})
 
 @app.route('/get')
 def get():
-    #error check
-    results=[]
     #dont know if it works!!
-    results=ad.get_reminders()
+    results = ad.get_reminders()
+
+    return results
     #add first 10 reminders in database to results
 
 
