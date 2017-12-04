@@ -1,7 +1,7 @@
 import redis
 import threading
 import Reminder
-
+from Alert_Methods import Alert_Methods
 
 class Alert_Database:
 
