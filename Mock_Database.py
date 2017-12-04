@@ -1,13 +1,13 @@
-import redis
+import fakeredis
 import threading
 import Reminder
 
 
-class Alert_Database:
+class Mock_Database:
 
     def __init__(self, reminders):
         # Create base database for reminders
-        self.r = redis.Redis()
+        self.r = fakeredis.FakeStrictRedis()
         self.lock = threading.RLock()
 
         # Create initial id_num to act as key for reminders in database
