@@ -29,6 +29,7 @@ class Alert_Database:
 
         # It might be a good idea to sort the reminders by time
 
+
         # Increment id_num to prepare for next reminder
         self.id_num += 1
 
