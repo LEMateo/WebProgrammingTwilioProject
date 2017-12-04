@@ -47,3 +47,20 @@ paths:
 
         '404':
           description: Used if there are too many or missing query parameters, if the query parameters are invalid, and also in case the database doesn't exist.
+    delete:
+      summary: Drops an indictated reminder from the database.
+      description: Allows the user to remove a reminder, indicated by an inputted ID, from the database.
+      responses:
+        '200':
+          description: A confirmation request for whether or not to delete the indicated reminder.  If yes, then deletes the reminder.
+          content:
+            application/json:
+              schema:
+                type: integer
+                properties:
+                  response:
+                    type: string
+                    description: Affirmative response to insertion.
+
+        '404':
+          description: Used if there are too many or missing query parameters, if the query parameters are invalid, and also in case the database doesn't exist.
