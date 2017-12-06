@@ -1,7 +1,7 @@
 import redis
 import threading
 import Reminder
-from Alert_Methods import Alert_Methods
+
 
 class Alert_Database:
 
@@ -28,6 +28,7 @@ class Alert_Database:
         self.r.set(self.id_num, reminder_instance)
 
         # It might be a good idea to sort the reminders by time
+        self.r.sort(self.r)
 
         # Increment id_num to prepare for next reminder
         self.id_num += 1

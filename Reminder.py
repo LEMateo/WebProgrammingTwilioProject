@@ -17,3 +17,12 @@ class Reminder(object):
         # Not sure how to test the validity of the text
         self.message = message
         self.id_number = id_number
+
+    def get_message(self):
+        return self.message
+
+    def get_time(self):
+        return self.time
+
+    def get_id(self):
+        return self.id_number
