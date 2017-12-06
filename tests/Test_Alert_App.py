@@ -33,7 +33,6 @@ class TestReminderDatabase(TestCase):
         db = make_empty_database()
         db.new_reminder("00:00:00", "Hello")
         self.assertEqual(1, len(db.get_reminders()))
-        print(db.r.scan())
         # self.assertEqual({0: {"00:00:00", "Hello"}}, db)
 
     def test_add_ten_reminders(self):
@@ -66,7 +65,11 @@ class TestReminderDatabase(TestCase):
         db.new_reminder("09:00:00", "R10")
         db.new_reminder("10:00:00", "R11")
         self.assertEqual(10, len(db.get_reminders()))
-        print(db.r.scan())
+        for key in db.r.keys():
+            print(key)
+        print(db.r.get(b'0'))
+        #test_object = db.r.get(b'0').decode("utf-8")
+        #print(getattr(test_object, "time"))
         # self.assertEqual({0: {"00:00:00", "R1"}, 1: {"01:00:00", "R2"}, 2: {"02:00:00", "R3"}, 3: {"03:00:00", "R4"}, 4: {"04:00:00", "R5"}, 5: {"05:00:00", "R6"}, 6: {"06:00:00", "R7"}, 7: {"07:00:00", "R8"}, 8: {"08:00:00", "R9"}, 9: {"09:00:00", "R10"}, 10: {"10:00:00", "R11"}}, db)
 
     # test ideas to add later

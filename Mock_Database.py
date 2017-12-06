@@ -1,6 +1,6 @@
 import fakeredis
 import threading
-import Reminder
+import Reminder_2
 
 
 class Mock_Database:
@@ -19,15 +19,17 @@ class Mock_Database:
 
         return results
 
-    def new_reminder(self, time, text):
+    def new_reminder(self, time, message):
         # reminder_instance is the object.
         # Take the time and text and put it into one object, then pull the values when needed
-        reminder_instance = Reminder.Reminder(time, text, self.id_num)
+        reminder_instance = Reminder_2.Reminder2(time, message)
+        #print(reminder_instance.get_id())
 
         # Adds the new reminder to the database.
-        self.r.set(self.id_num, reminder_instance)
+        self.r.set(self.id_num, reminder_instance.reminder)
 
         # It might be a good idea to sort the reminders by time
+        self.r.sort(self.r, by=time)
 
         # Increment id_num to prepare for next reminder
         self.id_num += 1

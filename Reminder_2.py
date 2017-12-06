@@ -1,11 +1,12 @@
 import datetime
 
 
-class Reminder:
+class Reminder2:
+    time = ""
+    message = ""
+    id_number = 0
 
-
-    def __init__(self, time, message, id_number):
-        # Test time for proper datetime format
+    def __init__(self, time, message):
         try:
             self.time = datetime.datetime.strptime(time, "%H:%M:%S")
         except ValueError:
@@ -14,13 +15,4 @@ class Reminder:
 
         # Not sure how to test the validity of the text
         self.message = message
-        #self.id_number = id_number
-
-    def get_message(self):
-        return self.message
-
-    def get_time(self):
-        return self.time
-
-    #def get_id(self):
-    #    return self.id_number
+        self.reminder = {self.time: self.message}

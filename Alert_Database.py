@@ -1,6 +1,6 @@
 import redis
 import threading
-import Reminder
+import Reminder_2
 
 
 class Alert_Database:
@@ -22,13 +22,13 @@ class Alert_Database:
     def new_reminder(self, time, text):
         # reminder_instance is the object.
         # Take the time and text and put it into one object, then pull the values when needed
-        reminder_instance = Reminder.Reminder(time, text, self.id_num)
+        reminder_instance = Reminder_2.Reminder2(time, text)
 
         # Adds the new reminder to the database.
         self.r.set(self.id_num, reminder_instance)
 
         # It might be a good idea to sort the reminders by time
-        self.r.sort(self.r)
+        self.r.sort(self.r.keys())
 
         # Increment id_num to prepare for next reminder
         self.id_num += 1
