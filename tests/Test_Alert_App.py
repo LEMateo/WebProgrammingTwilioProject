@@ -1,7 +1,6 @@
 import unittest
 from unittest import TestCase
 import fakeredis
-from Reminder import Reminder
 
 # Converts string to dictionary
 import ast
@@ -27,16 +26,19 @@ def make_empty_database():
 
 class TestReminderDatabase(TestCase):
 
-    def test_new_empty_database(self):
+    def test_empty_database(self):
         db = make_empty_database()
         self.assertEqual(0, len(db.get_reminders()))
+        db.delete_reminder(4)
+        self.assertEqual("I'm sorry. 4 is not a valid reminder code.", db.delete_reminder(4))
 
-    def test_add_one_reminder(self):
+
+    def one_reminder(self):
         db = make_empty_database()
         db.new_reminder("00:00:00", "Hello")
         self.assertEqual(1, len(db.get_reminders()))
-        #print(db.get_reminders())
-        # self.assertEqual({0: {"00:00:00", "Hello"}}, db)
+        db.delete_reminder(0)
+        self.assertEqual(0, len(db.get_reminders()))
 
     def test_add_ten_reminders(self):
         db = make_empty_database()
@@ -51,9 +53,21 @@ class TestReminderDatabase(TestCase):
         db.new_reminder("08:00:00", "R9")
         db.new_reminder("09:00:00", "R10")
         self.assertEqual(10, len(db.get_reminders()))
-        #print(db.r.scan())
+        # Tests for removing almost all but first entry
+        db.delete_reminder(1)
+        db.delete_reminder(2)
+        db.delete_reminder(3)
+        db.delete_reminder(4)
+        db.delete_reminder(5)
+        db.delete_reminder(6)
+        db.delete_reminder(7)
+        db.delete_reminder(8)
+        db.delete_reminder(9)
+        self.assertEqual(1, len(db.get_reminders()))
+        print(db.get_reminders())
+        self.assertEqual([{'0': {'00:00:00': 'R1'}}], db.get_reminders())
 
-    def test_add_eleven_reminders(self):
+    def test_eleven_reminders(self):
         db = make_empty_database()
         db.new_reminder("00:00:00", "R1")
         db.new_reminder("01:00:00", "R2")
@@ -67,64 +81,46 @@ class TestReminderDatabase(TestCase):
         db.new_reminder("09:00:00", "R10")
         db.new_reminder("10:00:00", "R11")
         self.assertEqual(10, len(db.get_reminders()))
-        #for key in db.r.keys():
-        #    print(key)
-        #print(db.r.get(0))
-        # Converts the entry into a string
-        #test_object = db.r.get(0).decode("utf-8")
-        #test_object = ast.literal_eval(test_object)
-        #print(test_object.keys())
+        db.delete_reminder(0)
+        self.assertEqual(10, len(db.get_reminders()))
 
     def test_add_duplicate_entry(self):
         db = make_empty_database()
-        db.new_reminder("1:00:00","R1")
-        db.new_reminder("1:00:00","R1")
+        db.new_reminder("1:00:00", "R1")
+        db.new_reminder("1:00:00", "R1")
         self.assertEqual(2,len(db.get_reminders()))
 
     def test_invalid_insertion(self):
-        db=make_empty_database()
-        try:
-            db.new_reminder("25:00:00","R1")
-        except:
-            print()
-        self.assertEqual(0,len(db.get_reminders()))
-
-    #Test ideas to add later
-
-    def test_remove_one(self):
         db = make_empty_database()
-        db.new_reminder("2:00:00","R1")
-        db.new_reminder("5:00:00","R2")
-        db.delete_reminder(1)
-        self.assertEqual(1,len(db.get_reminders()))
+        response = db.new_reminder("25:00:00", "R1")
+        self.assertEqual("Sorry, the time you gave is not a valid time.", response)
+        self.assertEqual(0, len(db.get_reminders()))
 
-    def test_invalid_removal(self):
+    def test_remove_one_of_two(self):
+        db = make_empty_database()
+        db.new_reminder("2:00:00", "R1")
+        db.new_reminder("5:00:00", "R2")
+        db.delete_reminder(1)
+        self.assertEqual(1, len(db.get_reminders()))
+
+    def test_invalid_removals(self):
         db = make_empty_database()
         db.new_reminder("2:00:00", "R1")
         db.new_reminder("5:00:00", "R2")
         db.delete_reminder(3)
         self.assertEqual(2, len(db.get_reminders()))
+        db.delete_reminder(0)
+        self.assertEqual("I'm sorry. 0 is not a valid reminder code.", db.delete_reminder(0))
 
-    def test_remove_from_empty_database(self):
-        db = make_empty_database()
-        try:
-            db.delete_reminder(4)
-        except:
-            print("It can't delete lmao")
-        #self.assertEqual("I'm sorry. 1 is not a valid reminder code.",db.delete_reminder(4))
-
-    # def test_remove_only_entry(self):
-
-    # def test_remove_one_of_ten(self):
-
-    # def rest_remove_one_of_eleven(self):
-
-    # def test_remove_nine_of_ten(self):
-
-    # def test_remove_all(self):
-
-    # def test_duplicate_removal(self):
-
-
+    #def test_sorted_reminders(self):
+    #    db = make_empty_database()
+    #    db.new_reminder("4:00:00", "Number 4")
+    #    db.new_reminder("1:00:00", "Number 1")
+    #    db.new_reminder("3:00:00", "Number 3")
+    #    db.new_reminder("5:00:00", "Number 5")
+    #    db.new_reminder("5:55:55", "Number 6")
+    #    db.new_reminder("2:00:00", "Number 2")
+    #    print(db.get_reminders())
+    #    self.assertEqual([{'1': {'01:00:00': 'Number 1'}}, {'5': {'02:00:00': 'Number 2'}}, {'2': {'03:00:00': 'Number 3'}}, {'0': {'04:00:00': 'Number 4'}}, {'3': {'05:00:00': 'Number 5'}}, {'4': {'05:55:55': 'Number 6'}}], db.get_reminders())
 
 

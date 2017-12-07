@@ -36,7 +36,7 @@ def drop(numID):
     if isinstance(numID, int):
         ad.delete_reminder(numID)
     else:
-        print("I'm sorry.", numID,  " is not a valid reminder code.")
+        print("I'm sorry. ", numID,  " is not a valid reminder code.")
 
 
 if __name__ == "__main__":

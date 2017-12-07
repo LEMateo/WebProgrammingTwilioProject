@@ -36,10 +36,10 @@ class Alert_Database:
 
         # Adds the new reminder to the database.
         self.r.set(self.id_num, reminder_instance.reminder)
-        print("Reminder successfully added.  The reminder's ID is ", self.id_num, ".")
+        print("Reminder successfully added. The reminder's ID is", self.id_num, ".")
 
         # It might be a good idea to sort the reminders by time
-        self.r.sort(self.r, by=time)
+        # self.r.sort(self.r, by=ast.literal_eval(self.r.get(*).decode("utf-8")[0]))
 
         # Increment id_num to prepare for next reminder
         self.id_num += 1
@@ -50,18 +50,20 @@ class Alert_Database:
 
         selected_entry = self.r.get(numID)
         print(selected_entry)
-        if(selected_entry == None):
-            print("I'm sorry.", numID, " is not a valid reminder code.")
+        if selected_entry is None:
+            response = "I'm sorry. " + str(numID) + " is not a valid reminder code."
         else:
             selected_entry = selected_entry.decode("utf-8")
 
             # Request for confirmation of deletion.
-            response = input("Are you sure you want to delete the reminder, " + selected_entry + " ?")
-            if response != "y" and response != "n":
-                print("Sorry, that is not a valid response.")
+            user_input = input("Are you sure you want to delete the reminder, " + selected_entry + " ?")
+            if user_input != "y" and user_input != "n":
+                response = "Sorry, that is not a valid response."
             else:
-                if response == "y":
+                if user_input == "y":
                     self.r.delete(numID)
-                    print("Reminder deleted.")
-                if response == "n":
-                    print("Deletion canceled.")
+                    response = "Reminder deleted."
+                if user_input == "n":
+                    response = "Deletion canceled."
+        print(response)
+        return response
