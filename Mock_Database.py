@@ -2,6 +2,7 @@ import fakeredis
 import threading
 import Reminder_2
 import ast
+import datetime
 
 
 class Mock_Database:
@@ -35,14 +36,20 @@ class Mock_Database:
         reminder_instance = Reminder_2.Reminder2(time, message)
 
         # Adds the new reminder to the database.
-        self.r.set(self.id_num, reminder_instance.reminder)
-        print("Reminder successfully added. The reminder's ID is", self.id_num, ".")
+        try:
+            test_time = datetime.datetime.strptime(time, "%H:%M:%S")
+            self.r.set(self.id_num, reminder_instance.reminder)
+            print("Reminder successfully added. The reminder's ID is", self.id_num, ".")
 
-        # It might be a good idea to sort the reminders by time
-        # self.r.sort(self.r, by=time)
+            # It might be a good idea to sort the reminders by time
+            # self.r.sort(self.r, by=time)
 
-        # Increment id_num to prepare for next reminder
-        self.id_num += 1
+            # Increment id_num to prepare for next reminder
+            self.id_num += 1
+        except ValueError:
+            # for testing purposes
+            print("Sorry, the time you gave is not a valid time.")
+            return "Sorry, the time you gave is not a valid time."
 
     def delete_reminder(self, numID):
         # use for drop
