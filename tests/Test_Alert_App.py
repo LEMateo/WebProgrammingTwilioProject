@@ -52,7 +52,7 @@ class TestReminderDatabase(TestCase):
         db.new_reminder("08:00:00", "R9")
         db.new_reminder("09:00:00", "R10")
         self.assertEqual(10, len(db.get_reminders()))
-        print(db.r.scan())
+        #print(db.r.scan())
 
     def test_add_eleven_reminders(self):
         db = make_empty_database()
@@ -68,19 +68,29 @@ class TestReminderDatabase(TestCase):
         db.new_reminder("09:00:00", "R10")
         db.new_reminder("10:00:00", "R11")
         self.assertEqual(10, len(db.get_reminders()))
-        for key in db.r.keys():
-            print(key)
-        print(db.r.get(0))
+        #for key in db.r.keys():
+        #    print(key)
+        #print(db.r.get(0))
         # Converts the entry into a string
-        test_object = db.r.get(0).decode("utf-8")
-        test_object = ast.literal_eval(test_object)
-        print(test_object.keys())
+        #test_object = db.r.get(0).decode("utf-8")
+        #test_object = ast.literal_eval(test_object)
+        #print(test_object.keys())
 
     # test ideas to add later
 
-    # def test_add_duplicate_entry(self):
+    def test_add_duplicate_entry(self):
+        db = make_empty_database()
+        db.new_reminder("1:00:00","R1")
+        db.new_reminder("1:00:00","R1")
+        self.assertEqual(2,len(db.get_reminders()))
 
-    # def test_invalid_insertion(self):
+    def test_invalid_insertion(self):
+        db=make_empty_database()
+        try:
+            db.new_reminder("25:00:00","R1")
+        except:
+            print()
+        self.assertEqual(0,len(db.get_reminders()))
 
     # def test_invalid_numID_removal(self):
 
