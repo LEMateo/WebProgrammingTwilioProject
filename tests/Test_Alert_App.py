@@ -1,6 +1,5 @@
 import unittest
 from unittest import TestCase
-# import redis
 import fakeredis
 from Reminder import Reminder
 
@@ -92,21 +91,22 @@ class TestReminderDatabase(TestCase):
 
     #Test ideas to add later
 
-    def test_invalid_numID_removal(self):
+    def test_remove_one(self):
         db = make_empty_database()
         db.new_reminder("2:00:00","R1")
         db.new_reminder("5:00:00","R2")
         db.delete_reminder(1)
         self.assertEqual(1,len(db.get_reminders()))
 
-    def test_remove_from_empty_database(self):
-        db=make_empty_database()
-        try:
-            db.delete_reminder(4)
-        except:
-            print("It can't delete lmao")
-        #self.assertEqual("I'm sorry. 1 is not a valid reminder code.",db.delete_reminder(4))
+    def test_invalid_removal(self):
+        db = make_empty_database()
+        db.new_reminder("2:00:00", "R1")
+        db.new_reminder("5:00:00", "R2")
+        db.delete_reminder(3)
+        self.assertEqual(2, len(db.get_reminders()))
 
+
+            # def test_remove_from_empty_database(self):
 
     # def test_remove_only_entry(self):
 
