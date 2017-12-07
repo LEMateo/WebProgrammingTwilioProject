@@ -51,12 +51,12 @@ class Mock_Database:
         selected_entry = self.r.get(numID).decode("utf-8")
 
         # Request for confirmation of deletion.
-        print(selected_entry)
         response = input("Are you sure you want to delete the reminder, " + selected_entry + " ?")
-        if str(response) == "y":
-            self.r.delete(numID)
-            print("Reminder deleted.")
-        if str(response) == "n":
-            print("Deletion canceled.")
-        else:
+        if response != "y" and response != "n":
             print("Sorry, that is not a valid response.")
+        else:
+            if response == "y":
+                self.r.delete(numID)
+                print("Reminder deleted.")
+            if response == "n":
+                print("Deletion canceled.")
