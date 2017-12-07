@@ -105,8 +105,13 @@ class TestReminderDatabase(TestCase):
         db.delete_reminder(3)
         self.assertEqual(2, len(db.get_reminders()))
 
-
-            # def test_remove_from_empty_database(self):
+    def test_remove_from_empty_database(self):
+        db = make_empty_database()
+        try:
+            db.delete_reminder(4)
+        except:
+            print("It can't delete lmao")
+        #self.assertEqual("I'm sorry. 1 is not a valid reminder code.",db.delete_reminder(4))
 
     # def test_remove_only_entry(self):
 
