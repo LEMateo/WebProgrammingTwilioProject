@@ -3,7 +3,6 @@ import datetime
 
 class Reminder:
 
-
     def __init__(self, time, message, id_number):
         # Test time for proper datetime format
         try:
@@ -21,6 +20,3 @@ class Reminder:
 
     def get_time(self):
         return self.time
-
-    #def get_id(self):
-    #    return self.id_number

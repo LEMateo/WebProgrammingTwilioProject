@@ -48,15 +48,20 @@ class Mock_Database:
         # use for drop
         # numID is the unique identifying number
 
-        selected_entry = self.r.get(numID).decode("utf-8")
-
-        # Request for confirmation of deletion.
-        response = input("Are you sure you want to delete the reminder, " + selected_entry + " ?")
-        if response != "y" and response != "n":
-            print("Sorry, that is not a valid response.")
+        selected_entry = self.r.get(numID)
+        print(selected_entry)
+        if(selected_entry == None):
+            print("I'm sorry.", numID, " is not a valid reminder code.")
         else:
-            if response == "y":
-                self.r.delete(numID)
-                print("Reminder deleted.")
-            if response == "n":
-                print("Deletion canceled.")
+            selected_entry = selected_entry.decode("utf-8")
+
+            # Request for confirmation of deletion.
+            response = input("Are you sure you want to delete the reminder, " + selected_entry + " ?")
+            if response != "y" and response != "n":
+                print("Sorry, that is not a valid response.")
+            else:
+                if response == "y":
+                    self.r.delete(numID)
+                    print("Reminder deleted.")
+                if response == "n":
+                    print("Deletion canceled.")
