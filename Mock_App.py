@@ -7,22 +7,10 @@ import ast
 app = Flask(__name__)
 ad = Mock_Database({})
 
-
+# Returns 10 reminders in database which come up next.
 @app.route('/get')
 def get():
-    base_results = ad.get_reminders()
-    results = []
-
-    for entry in base_results:
-        # Converts the each into a string
-        test_object = entry.decode("utf-8")
-        test_object = ast.literal_eval(test_object)
-        print(test_object)
-        results.append(test_object)
-
-
-    # Return the first 10 reminders
-    return results
+    return ad.get_reminders()
 
 
 @app.route('/set')
