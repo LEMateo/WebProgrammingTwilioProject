@@ -4,6 +4,9 @@ from unittest import TestCase
 import fakeredis
 from Reminder import Reminder
 
+# Converts string to dictionary
+import ast
+
 from Mock_Database import Mock_Database
 
 # format for data entry is  "HH:MM:SS", "........."
@@ -49,7 +52,6 @@ class TestReminderDatabase(TestCase):
         db.new_reminder("09:00:00", "R10")
         self.assertEqual(10, len(db.get_reminders()))
         print(db.r.scan())
-        # self.assertEqual({0: {"00:00:00", "R1"}, 1: {"01:00:00", "R2"}, 2: {"02:00:00", "R3"}, 3: {"03:00:00", "R4"}, 4: {"04:00:00", "R5"}, 5: {"05:00:00", "R6"}, 6: {"06:00:00", "R7"}, 7: {"07:00:00", "R8"}, 8: {"08:00:00", "R9"}, 9: {"09:00:00", "R10"}}, db)
 
     def test_add_eleven_reminders(self):
         db = make_empty_database()
@@ -67,10 +69,11 @@ class TestReminderDatabase(TestCase):
         self.assertEqual(10, len(db.get_reminders()))
         for key in db.r.keys():
             print(key)
-        print(db.r.get(b'0'))
-        #test_object = db.r.get(b'0').decode("utf-8")
-        #print(getattr(test_object, "time"))
-        # self.assertEqual({0: {"00:00:00", "R1"}, 1: {"01:00:00", "R2"}, 2: {"02:00:00", "R3"}, 3: {"03:00:00", "R4"}, 4: {"04:00:00", "R5"}, 5: {"05:00:00", "R6"}, 6: {"06:00:00", "R7"}, 7: {"07:00:00", "R8"}, 8: {"08:00:00", "R9"}, 9: {"09:00:00", "R10"}, 10: {"10:00:00", "R11"}}, db)
+        print(db.r.get(0))
+        # Converts the entry into a string
+        test_object = db.r.get(0).decode("utf-8")
+        test_object = ast.literal_eval(test_object)
+        print(test_object.keys())
 
     # test ideas to add later
 

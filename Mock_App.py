@@ -1,10 +1,10 @@
 import datetime
-from Alert_Database import Alert_Database
+from Mock_Database import Mock_Database
 from flask import Flask
 
 
 app = Flask(__name__)
-ad = Alert_Database({})
+ad = Mock_Database({})
 
 
 @app.route('/get')
