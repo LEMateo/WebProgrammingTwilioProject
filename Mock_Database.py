@@ -44,12 +44,11 @@ class Mock_Database:
         # Increment id_num to prepare for next reminder
         self.id_num += 1
 
-
     def delete_reminder(self, numID):
         # use for drop
         # numID is the unique identifying number
 
-        selected_entry = self.r.get(numID)
+        selected_entry = ast.literal_eval(self.r.get(numID).decode("utf-8"))
 
         # Request for confirmation of deletion.
         response = input("Are you sure you want to delete the reminder, " + selected_entry + " ?")
