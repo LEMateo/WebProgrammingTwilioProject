@@ -1,6 +1,7 @@
 import datetime
 from Alert_Database import Alert_Database
 from flask import Flask
+import ast
 
 
 app = Flask(__name__)
@@ -9,10 +10,6 @@ ad = Alert_Database({})
 
 @app.route('/get')
 def get():
-    # dont know if it works!!
-    results = ad.get_reminders()
-
-    # add first 10 reminders in database to results
 
     # Return the first 10 reminders
     return results

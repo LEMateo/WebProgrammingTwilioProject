@@ -1,6 +1,7 @@
 import datetime
 from Mock_Database import Mock_Database
 from flask import Flask
+import ast
 
 
 app = Flask(__name__)
@@ -9,10 +10,16 @@ ad = Mock_Database({})
 
 @app.route('/get')
 def get():
-    # dont know if it works!!
-    results = ad.get_reminders()
+    base_results = ad.get_reminders()
+    results = []
 
-    # add first 10 reminders in database to results
+    for entry in base_results:
+        # Converts the each into a string
+        test_object = entry.decode("utf-8")
+        test_object = ast.literal_eval(test_object)
+        print(test_object)
+        results.append(test_object)
+
 
     # Return the first 10 reminders
     return results

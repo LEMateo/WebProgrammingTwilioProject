@@ -1,6 +1,7 @@
 import redis
 import threading
 import Reminder_2
+import ast
 
 
 class Alert_Database:
@@ -15,7 +16,16 @@ class Alert_Database:
 
     def get_reminders(self):
         reminders = self.r.keys()
-        results = reminders[0: 10]
+        base_results = reminders[0: 10]
+        results = []
+
+        for i in range(0, len(base_results)):
+            # Converts the each into a string
+            key = base_results[i].decode("utf-8")
+            info = self.r.get(base_results[i]).decode("utf-8")
+            info = {key: ast.literal_eval(info)}
+
+            results.append(info)
 
         return results
 

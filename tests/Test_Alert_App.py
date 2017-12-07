@@ -36,6 +36,7 @@ class TestReminderDatabase(TestCase):
         db = make_empty_database()
         db.new_reminder("00:00:00", "Hello")
         self.assertEqual(1, len(db.get_reminders()))
+        print(db.get_reminders())
         # self.assertEqual({0: {"00:00:00", "Hello"}}, db)
 
     def test_add_ten_reminders(self):
