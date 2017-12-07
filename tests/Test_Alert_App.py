@@ -36,7 +36,7 @@ class TestReminderDatabase(TestCase):
         db = make_empty_database()
         db.new_reminder("00:00:00", "Hello")
         self.assertEqual(1, len(db.get_reminders()))
-        print(db.get_reminders())
+        #print(db.get_reminders())
         # self.assertEqual({0: {"00:00:00", "Hello"}}, db)
 
     def test_add_ten_reminders(self):
@@ -76,8 +76,6 @@ class TestReminderDatabase(TestCase):
         #test_object = ast.literal_eval(test_object)
         #print(test_object.keys())
 
-    # test ideas to add later
-
     def test_add_duplicate_entry(self):
         db = make_empty_database()
         db.new_reminder("1:00:00","R1")
@@ -92,7 +90,14 @@ class TestReminderDatabase(TestCase):
             print()
         self.assertEqual(0,len(db.get_reminders()))
 
-    # def test_invalid_numID_removal(self):
+    #Test ideas to add later
+
+    def test_invalid_numID_removal(self):
+        db = make_empty_database()
+        db.new_reminder("2:00:00","R1")
+        db.new_reminder("5:00:00","R2")
+        db.delete_reminder(1)
+        self.assertEqual(1,len(db.get_reminders()))
 
     # def test_remove_from_empty_database(self):
 
