@@ -48,9 +48,10 @@ class Mock_Database:
         # use for drop
         # numID is the unique identifying number
 
-        selected_entry = ast.literal_eval(self.r.get(numID).decode("utf-8"))
+        selected_entry = self.r.get(numID).decode("utf-8")
 
         # Request for confirmation of deletion.
+        print(selected_entry)
         response = input("Are you sure you want to delete the reminder, " + selected_entry + " ?")
         if str(response) == "y":
             self.r.delete(numID)

@@ -29,7 +29,7 @@ class Alert_Database:
 
         return results
 
-    def new_reminder(self, time, text):
+    def new_reminder(self, time, message):
         # reminder_instance is the object.
         # Take the time and text and put it into one object, then pull the values when needed
         reminder_instance = Reminder_2.Reminder2(time, message)
@@ -52,10 +52,11 @@ class Alert_Database:
 
         # Request for confirmation of deletion.
         response = input("Are you sure you want to delete the reminder, " + selected_entry + " ?")
-        if str(response) == "y":
-            self.r.delete(numID)
-            print("Reminder deleted.")
-        if str(response) == "n":
-            print("Deletion canceled.")
-        else:
+        if response != "y" and response != "n":
             print("Sorry, that is not a valid response.")
+        else:
+            if response == "y":
+                self.r.delete(numID)
+                print("Reminder deleted.")
+            if response == "n":
+                print("Deletion canceled.")
