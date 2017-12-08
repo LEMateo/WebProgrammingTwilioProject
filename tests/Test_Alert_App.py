@@ -3,14 +3,13 @@ from unittest import TestCase
 import fakeredis
 import datetime
 from Mock_Database import Mock_Database
-from Mock_Send import Mock_Methods
+#from Mock_Send import Mock_Methods
 
 
 def make_empty_database():
     r = fakeredis.FakeStrictRedis()
     r.flushall()
     return Mock_Database({})
-
 
 class TestReminderDatabase(TestCase):
 
@@ -105,11 +104,12 @@ class TestReminderDatabase(TestCase):
 
     def test_expired_reminders(self):
         db = make_empty_database()
-        db.new_reminder("20:50:00", "Expired")
-        db.new_reminder("20:49:00", "Expired")
-        db.new_reminder("21:45:00", "Not Expired")
+        db.new_reminder("21:47:00", "Expired")
+        db.new_reminder("20:46:00", "Expired")
+        db.new_reminder("22:00:00", "Not Expired")
         db.new_reminder("00:45:00", "Not Expired")
-        Mock_Methods.scan_reminders(db.get_reminders())
+        print(db.get_reminders())
+        db.scan_reminders()
 
 
 

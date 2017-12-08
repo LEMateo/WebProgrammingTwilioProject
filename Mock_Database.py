@@ -3,6 +3,7 @@ import threading
 import Reminder_2
 import ast
 import datetime
+from datetime import timedelta
 
 
 class Mock_Database:
@@ -14,6 +15,7 @@ class Mock_Database:
 
         # Create initial id_num to act as key for reminders in database
         self.id_num = 0
+        self.expired = []
 
     def get_reminders(self):
         reminders = self.r.keys()
@@ -72,3 +74,22 @@ class Mock_Database:
                 if user_input == "n":
                     response = "Deletion canceled."
         return response
+
+    def scan_reminders(self):
+        self.expired = []
+        for rem in self.r.keys():
+            r_info = self.r.get(rem).decode("utf-8")
+            r_time = list(ast.literal_eval(r_info))
+            print(r_time)
+            test_time = datetime.datetime.strptime(r_time[0], "%H:%M:%S")
+            t = datetime.datetime.strptime("00:01:00", "%H:%M:%S").time()
+            pass_time = timedelta(hours=t.hour, minutes=t.minute, seconds=t.second)
+            time_diff = datetime.datetime.now() - test_time
+            if time_diff < pass_time:
+                self.expired.append(rem)
+        if len(self.expired) != 0:
+            Mock_Database.send_reminder()
+
+    def send_reminder(self):
+        for re in self.expired:
+            print(re)

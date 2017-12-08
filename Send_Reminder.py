@@ -5,7 +5,6 @@ import redis
 class Alert_Methods:
 
     def scan_reminders(self):
-        
 
     def send_reminder(self):
         # runs constantly to send then delete reminders that are at the time to be used
