@@ -1,21 +1,9 @@
 import unittest
 from unittest import TestCase
 import fakeredis
-
-# Converts string to dictionary
-import ast
-
+import datetime
 from Mock_Database import Mock_Database
-
-# format for data entry is  "HH:MM:SS", "........."
-
-# I don't think this creation statement works for our database
-# def make_database():
-#    r = fakeredis.FakeStrictRedis()
-#    r.flushall()
-#    r.set('00:00:00', "Hello")
-#    r.set('01:00:00', "Testing")
-#    return Alert_Database(r)
+from Mock_Send import Mock_Methods
 
 
 def make_empty_database():
@@ -31,6 +19,9 @@ class TestReminderDatabase(TestCase):
         self.assertEqual(0, len(db.get_reminders()))
         db.delete_reminder(4)
         self.assertEqual("I'm sorry. 4 is not a valid reminder code.", db.delete_reminder(4))
+        testTime = datetime.datetime.strptime("01:00:00", "%H:%M:%S")
+        subTime = datetime.datetime.strptime("0:00:10", "%H:%M:%S")
+        print(testTime - subTime)
 
 
     def one_reminder(self):
@@ -111,6 +102,19 @@ class TestReminderDatabase(TestCase):
         self.assertEqual(2, len(db.get_reminders()))
         db.delete_reminder(0)
         self.assertEqual("I'm sorry. 0 is not a valid reminder code.", db.delete_reminder(0))
+
+    def test_expired_reminders(self):
+        db = make_empty_database()
+        db.new_reminder("20:50:00", "Expired")
+        db.new_reminder("20:49:00", "Expired")
+        db.new_reminder("21:45:00", "Not Expired")
+        db.new_reminder("00:45:00", "Not Expired")
+        Mock_Methods.scan_reminders(db.get_reminders())
+
+
+
+
+
 
     #def test_sorted_reminders(self):
     #    db = make_empty_database()
