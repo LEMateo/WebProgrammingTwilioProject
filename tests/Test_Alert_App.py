@@ -3,6 +3,7 @@ from unittest import TestCase
 import fakeredis
 import datetime
 from Mock_Database import Mock_Database
+import Mock_T_R
 #from Mock_Send import Mock_Methods
 
 
@@ -10,6 +11,12 @@ def make_empty_database():
     r = fakeredis.FakeStrictRedis()
     r.flushall()
     return Mock_Database({})
+
+
+def make_Mock_T_R():
+    m = Mock_T_R.Twilio_Reminder
+    return m
+
 
 class TestReminderDatabase(TestCase):
 
@@ -80,7 +87,7 @@ class TestReminderDatabase(TestCase):
 
     def test_invalid_insertion(self):
         db = make_empty_database()
-        #db.new_reminder("25:00:00","R1")
+        # b.new_reminder("25:00:00","R1")
         self.assertEqual("Sorry, the time you gave is not a valid time.", db.new_reminder("25:00:00", "R1"))
         self.assertEqual(0, len(db.get_reminders()))
 
@@ -107,6 +114,11 @@ class TestReminderDatabase(TestCase):
         db.new_reminder("21:00:00", "Not Expired")
         db.new_reminder("00:45:00", "Not Expired")
         print(db.get_reminders())
+        db.scan_reminders()
+
+    def test_sent_reminder(self):
+        db = make_empty_database()
+        db.new_reminder("01:32:00", "This worked!")
         db.scan_reminders()
 
 

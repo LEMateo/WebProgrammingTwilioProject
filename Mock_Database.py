@@ -4,7 +4,7 @@ import Reminder_2
 import ast
 import datetime
 from datetime import timedelta
-from Mock_T_R import Twilio_Reminder
+import requests
 
 
 class Mock_Database:
@@ -17,6 +17,7 @@ class Mock_Database:
         # Create initial id_num to act as key for reminders in database
         self.id_num = 0
         self.expired = []
+        self.sent_message = ""
         threading.Timer(30, self.send_reminder()).start()
 
     def get_reminders(self):
@@ -98,6 +99,21 @@ class Mock_Database:
             info = self.r.get(re).decode("utf-8")
             m_value = ast.literal_eval(info)
             m_key = list(m_value)
-            Twilio_Reminder(m_value.get(m_key[0]))
+            self.sent_message = m_value.get(m_key[0])
+            self.push_reminder()
+
+    def push_reminder(self):
+        base = "https://api.twilio.com/2010-04-01/Accounts/"
+        accountSid = "AC959860f3555ba1e035d5bfc59ae19a1b"
+        authToken = "9ae3868b4defb5f5dbf94144910364ba"
+
+        second_base = base + accountSid + "/Messages"
+
+        params = {'To': "+14846026317", 'From': "+14842323208", 'Body': self.sent_message}
+        auth = (accountSid, authToken)
+        result = requests.post(second_base, auth=auth, data=params)
+
+        print("reminder ", self.sent_message, " sent")
+
 
 
