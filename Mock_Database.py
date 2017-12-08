@@ -81,15 +81,17 @@ class Mock_Database:
             r_info = self.r.get(rem).decode("utf-8")
             r_time = list(ast.literal_eval(r_info))
             print(r_time)
-            test_time = datetime.datetime.strptime(r_time[0], "%H:%M:%S")
-            t = datetime.datetime.strptime("00:01:00", "%H:%M:%S").time()
-            pass_time = timedelta(hours=t.hour, minutes=t.minute, seconds=t.second)
-            time_diff = datetime.datetime.now() - test_time
-            if time_diff < pass_time:
+            rem_t = datetime.datetime.strptime(r_time[0], "%H:%M:%S")
+            rem_time = timedelta(hours=rem_t.hour, minutes=rem_t.minute, seconds=rem_t.second)
+            pass_time_one = datetime.datetime.strptime("00:01:00", "%H:%M:%S").time()
+            pass_time_two = datetime.datetime.strptime("23:59:00", "%H:%M:%S").time()
+            time_diff = (datetime.datetime.now() - rem_time).time()
+            if time_diff < pass_time_one or time_diff > pass_time_two:
                 self.expired.append(rem)
         if len(self.expired) != 0:
-            Mock_Database.send_reminder()
+            self.send_reminder()
 
     def send_reminder(self):
         for re in self.expired:
             print(re)
+            print("this is send")

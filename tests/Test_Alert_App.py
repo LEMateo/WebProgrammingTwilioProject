@@ -43,7 +43,6 @@ class TestReminderDatabase(TestCase):
         db.new_reminder("08:00:00", "R9")
         db.new_reminder("09:00:00", "R10")
         self.assertEqual(10, len(db.get_reminders()))
-        # Tests for removing almost all but first entry
         db.delete_reminder(1)
         db.delete_reminder(2)
         db.delete_reminder(3)
@@ -54,7 +53,6 @@ class TestReminderDatabase(TestCase):
         db.delete_reminder(8)
         db.delete_reminder(9)
         self.assertEqual(1, len(db.get_reminders()))
-        #print(db.get_reminders())
         self.assertEqual([{'0': {'00:00:00': 'R1'}}], db.get_reminders())
 
     def test_eleven_reminders(self):
@@ -104,9 +102,9 @@ class TestReminderDatabase(TestCase):
 
     def test_expired_reminders(self):
         db = make_empty_database()
-        db.new_reminder("21:47:00", "Expired")
-        db.new_reminder("20:46:00", "Expired")
-        db.new_reminder("22:00:00", "Not Expired")
+        db.new_reminder("22:33:00", "Expired")
+        db.new_reminder("22:34:00", "Expired")
+        db.new_reminder("21:00:00", "Not Expired")
         db.new_reminder("00:45:00", "Not Expired")
         print(db.get_reminders())
         db.scan_reminders()

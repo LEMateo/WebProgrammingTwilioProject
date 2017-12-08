@@ -2,6 +2,9 @@ import redis
 import threading
 import Reminder_2
 import ast
+import datetime
+from datetime import timedelta
+
 
 
 class Alert_Database:
@@ -13,6 +16,7 @@ class Alert_Database:
 
         # Create initial id_num to act as key for reminders in database
         self.id_num = 0
+        self.expired = []
 
     def get_reminders(self):
         reminders = self.r.keys()
@@ -67,3 +71,24 @@ class Alert_Database:
                     response = "Deletion canceled."
         print(response)
         return response
+
+    def scan_reminders(self):
+        self.expired = []
+        for rem in self.r.keys():
+            r_info = self.r.get(rem).decode("utf-8")
+            r_time = list(ast.literal_eval(r_info))
+            print(r_time)
+            rem_t = datetime.datetime.strptime(r_time[0], "%H:%M:%S")
+            rem_time = timedelta(hours=rem_t.hour, minutes=rem_t.minute, seconds=rem_t.second)
+            pass_time_one = datetime.datetime.strptime("00:01:00", "%H:%M:%S").time()
+            pass_time_two = datetime.datetime.strptime("23:59:00", "%H:%M:%S").time()
+            time_diff = (datetime.datetime.now() - rem_time).time()
+            if time_diff < pass_time_one or time_diff > pass_time_two:
+                self.expired.append(rem)
+        if len(self.expired) != 0:
+            self.send_reminder()
+
+    def send_reminder(self):
+        for re in self.expired:
+            print(re)
+            print("this is send")
