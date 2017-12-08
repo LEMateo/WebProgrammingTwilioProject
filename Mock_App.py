@@ -7,6 +7,7 @@ import ast
 app = Flask(__name__)
 ad = Mock_Database({})
 
+
 # Returns 10 reminders in database which come up next.
 @app.route('/get')
 def get():

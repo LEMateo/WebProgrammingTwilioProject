@@ -4,7 +4,7 @@ import Reminder_2
 import ast
 import datetime
 from datetime import timedelta
-
+import requests
 
 
 class Alert_Database:
@@ -17,6 +17,8 @@ class Alert_Database:
         # Create initial id_num to act as key for reminders in database
         self.id_num = 0
         self.expired = []
+        self.sent_message = ""
+        threading.Timer(30, self.send_reminder()).start()
 
     def get_reminders(self):
         reminders = self.r.keys()
@@ -39,21 +41,26 @@ class Alert_Database:
         reminder_instance = Reminder_2.Reminder2(time, message)
 
         # Adds the new reminder to the database.
-        self.r.set(self.id_num, reminder_instance.reminder)
-        print("Reminder successfully added. The reminder's ID is", self.id_num, ".")
+        try:
+            test_time = datetime.datetime.strptime(time, "%H:%M:%S")
+            self.r.set(self.id_num, reminder_instance.reminder)
+            print("Reminder successfully added. The reminder's ID is", self.id_num, ".")
 
-        # It might be a good idea to sort the reminders by time
-        # self.r.sort(self.r, by=ast.literal_eval(self.r.get(*).decode("utf-8")[0]))
+            # It might be a good idea to sort the reminders by time
+            # self.r.sort(self.r, by=time)
 
-        # Increment id_num to prepare for next reminder
-        self.id_num += 1
+            # Increment id_num to prepare for next reminder
+            self.id_num += 1
+        except ValueError:
+            # for testing purposes
+            print("Sorry, the time you gave is not a valid time.")
+            return "Sorry, the time you gave is not a valid time."
 
     def delete_reminder(self, numID):
         # use for drop
         # numID is the unique identifying number
 
         selected_entry = self.r.get(numID)
-        print(selected_entry)
         if selected_entry is None:
             response = "I'm sorry. " + str(numID) + " is not a valid reminder code."
         else:
@@ -69,7 +76,6 @@ class Alert_Database:
                     response = "Reminder deleted."
                 if user_input == "n":
                     response = "Deletion canceled."
-        print(response)
         return response
 
     def scan_reminders(self):
@@ -90,5 +96,24 @@ class Alert_Database:
 
     def send_reminder(self):
         for re in self.expired:
-            print(re)
-            print("this is send")
+            info = self.r.get(re).decode("utf-8")
+            m_value = ast.literal_eval(info)
+            m_key = list(m_value)
+            self.sent_message = m_value.get(m_key[0])
+            self.push_reminder()
+
+    def push_reminder(self):
+        base = "https://api.twilio.com/2010-04-01/Accounts/"
+        accountSid = "AC959860f3555ba1e035d5bfc59ae19a1b"
+        authToken = "9ae3868b4defb5f5dbf94144910364ba"
+
+        second_base = base + accountSid + "/Messages"
+
+        params = {'To': "+14846026317", 'From': "+14842323208", 'Body': self.sent_message}
+        auth = (accountSid, authToken)
+        result = requests.post(second_base, auth=auth, data=params)
+
+        print("reminder ", self.sent_message, " sent")
+
+
+

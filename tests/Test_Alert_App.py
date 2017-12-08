@@ -3,7 +3,6 @@ from unittest import TestCase
 import fakeredis
 import datetime
 from Mock_Database import Mock_Database
-import Mock_T_R
 #from Mock_Send import Mock_Methods
 
 
@@ -11,11 +10,6 @@ def make_empty_database():
     r = fakeredis.FakeStrictRedis()
     r.flushall()
     return Mock_Database({})
-
-
-def make_Mock_T_R():
-    m = Mock_T_R.Twilio_Reminder
-    return m
 
 
 class TestReminderDatabase(TestCase):
