@@ -4,6 +4,7 @@ import Reminder_2
 import ast
 import datetime
 from datetime import timedelta
+from Mock_T_R import Twilio_Reminder
 
 
 class Mock_Database:
@@ -16,6 +17,7 @@ class Mock_Database:
         # Create initial id_num to act as key for reminders in database
         self.id_num = 0
         self.expired = []
+        threading.Timer(30, self.send_reminder()).start()
 
     def get_reminders(self):
         reminders = self.r.keys()
@@ -93,5 +95,9 @@ class Mock_Database:
 
     def send_reminder(self):
         for re in self.expired:
-            print(re)
-            print("this is send")
+            info = self.r.get(re).decode("utf-8")
+            m_value = ast.literal_eval(info)
+            m_key = list(m_value)
+            Twilio_Reminder(m_value.get(m_key[0]))
+
+
