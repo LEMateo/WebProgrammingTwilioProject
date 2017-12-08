@@ -5,6 +5,7 @@ import ast
 import datetime
 from datetime import timedelta
 import requests
+import os
 
 
 class Alert_Database:
@@ -18,11 +19,11 @@ class Alert_Database:
         self.id_num = 0
         self.expired = []
         self.sent_message = ""
-        threading.Timer(30, self.send_reminder()).start()
+        #threading.Timer(30, self.send_reminder()).start()
 
     def get_reminders(self):
         reminders = self.r.keys()
-        base_results = reminders[0: 10]
+        base_results = reminders
         results = []
 
         for i in range(0, len(base_results)):
@@ -33,6 +34,7 @@ class Alert_Database:
 
             results.append(info)
 
+        self.scan_reminders()
         return results
 
     def new_reminder(self, time, message):
@@ -44,7 +46,7 @@ class Alert_Database:
         try:
             test_time = datetime.datetime.strptime(time, "%H:%M:%S")
             self.r.set(self.id_num, reminder_instance.reminder)
-            print("Reminder successfully added. The reminder's ID is", self.id_num, ".")
+            response = ("Reminder successfully added. The reminder's ID is", self.id_num, ".")
 
             # It might be a good idea to sort the reminders by time
             # self.r.sort(self.r, by=time)
@@ -53,8 +55,9 @@ class Alert_Database:
             self.id_num += 1
         except ValueError:
             # for testing purposes
-            print("Sorry, the time you gave is not a valid time.")
-            return "Sorry, the time you gave is not a valid time."
+            response = "Sorry, the time you gave is not a valid time."
+
+        return response
 
     def delete_reminder(self, numID):
         # use for drop
@@ -93,6 +96,9 @@ class Alert_Database:
                 self.expired.append(rem)
         if len(self.expired) != 0:
             self.send_reminder()
+            return "A reminder has expired!"
+        else:
+            return "No reminders have expired."
 
     def send_reminder(self):
         for re in self.expired:
@@ -100,12 +106,13 @@ class Alert_Database:
             m_value = ast.literal_eval(info)
             m_key = list(m_value)
             self.sent_message = m_value.get(m_key[0])
+            self.r.delete(re)
             self.push_reminder()
 
     def push_reminder(self):
         base = "https://api.twilio.com/2010-04-01/Accounts/"
-        accountSid = "AC959860f3555ba1e035d5bfc59ae19a1b"
-        authToken = "9ae3868b4defb5f5dbf94144910364ba"
+        accountSid = os.environ['TWILIO_SID']
+        authToken = os.environ['TWILIO_ACCESS_TOKEN']
 
         second_base = base + accountSid + "/Messages"
 

@@ -5,6 +5,7 @@ import ast
 import datetime
 from datetime import timedelta
 import requests
+import os
 
 
 class Mock_Database:
@@ -18,7 +19,7 @@ class Mock_Database:
         self.id_num = 0
         self.expired = []
         self.sent_message = ""
-        threading.Timer(30, self.send_reminder()).start()
+        #threading.Timer(30, self.send_reminder()).start()
 
     def get_reminders(self):
         reminders = self.r.keys()
@@ -33,6 +34,7 @@ class Mock_Database:
 
             results.append(info)
 
+        self.scan_reminders()
         return results
 
     def new_reminder(self, time, message):
@@ -104,8 +106,8 @@ class Mock_Database:
 
     def push_reminder(self):
         base = "https://api.twilio.com/2010-04-01/Accounts/"
-        accountSid = "AC959860f3555ba1e035d5bfc59ae19a1b"
-        authToken = "9ae3868b4defb5f5dbf94144910364ba"
+        accountSid = os.environ['TWILIO_SID']
+        authToken = os.environ['TWILIO_ACCESS_TOKEN']
 
         second_base = base + accountSid + "/Messages"
 
