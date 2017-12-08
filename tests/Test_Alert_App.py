@@ -64,7 +64,7 @@ class TestReminderDatabase(TestCase):
         db.delete_reminder(8)
         db.delete_reminder(9)
         self.assertEqual(1, len(db.get_reminders()))
-        print(db.get_reminders())
+        #print(db.get_reminders())
         self.assertEqual([{'0': {'00:00:00': 'R1'}}], db.get_reminders())
 
     def test_eleven_reminders(self):
@@ -92,8 +92,8 @@ class TestReminderDatabase(TestCase):
 
     def test_invalid_insertion(self):
         db = make_empty_database()
-        response = db.new_reminder("25:00:00", "R1")
-        self.assertEqual("Sorry, the time you gave is not a valid time.", response)
+        #db.new_reminder("25:00:00","R1")
+        self.assertEqual("Sorry, the time you gave is not a valid time.", db.new_reminder("25:00:00", "R1"))
         self.assertEqual(0, len(db.get_reminders()))
 
     def test_remove_one_of_two(self):
